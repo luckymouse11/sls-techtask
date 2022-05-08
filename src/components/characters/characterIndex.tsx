@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import CharacterCard from './characterCard'
+import CharacterCardVals from './interfaces'
+import { CharacterCard } from './characterCard'
+import { stripVTControlCharacters } from 'util'
 
 const CharacterIndex: React.FC = () => {
   
-  const [character, setCharacter] = useState([])
+  const [character, setCharacter] = useState<Array<CharacterCardVals>>([])
 
   useEffect (() => {
     const getData = async () => {
@@ -15,28 +17,15 @@ const CharacterIndex: React.FC = () => {
     getData()
   }, [])
 
-  const handleChange = async (event) => {
-    try {
-      const value = `/?${event.target.id}=${event.target.value}`
-      const { data } = await axios(`https://rickandmortyapi.com/api/character/${value}`)
-      setNextPage(data.info.next)
-      setCharacter(data.results)
-    } catch (err) {
-      console.log(err)
-    }
-  } 
-
-
-  return (
-    <div className="container margin-top">
-      <h1 className="title">All Characters</h1>
-      <div className="column-style columns is-multiline">
-        {character.map(character => {
-          return <CharacterCard key={character.id} {... character}/>
-        })}
-      </div>
-    </div>
-  )
-}
+    return (
+      <>
+      <div className='columns-style columns is-multiline'>
+          {character.map(item => {
+            return <CharacterCard characters={character}/>
+          })} 
+        </div>
+      </>
+    )
+  }
 
 export default CharacterIndex
