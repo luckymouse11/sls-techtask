@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import CharacterCardVals from './interfaces'
 import { CharacterCard } from './characterCard'
-import { stripVTControlCharacters } from 'util'
+// import { stripVTControlCharacters } from 'util'
 
 const CharacterIndex: React.FC = () => {
   
@@ -19,11 +19,9 @@ const CharacterIndex: React.FC = () => {
 
     return (
       <>
-      <div className='columns-style columns is-multiline'>
-          {character.map(item => {
-            return <CharacterCard characters={character}/>
-          })} 
-        </div>
+        {character.map(item => {
+          return <CharacterCard characters={character}/>
+        })} 
       </>
     )
   }

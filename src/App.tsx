@@ -1,30 +1,49 @@
 import React from 'react'
-import { Routes , Route , Link } from 'react-router-dom'
+import { Routes , Route , Link } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+
+
+import Navbar from './common/Navbar'
 
 import Home from './components/Home'
 import CharacterIndex from './components/characters/characterIndex'
 
+const themeLight = createMuiTheme({
+  palette: {
+    background:{
+      default: "#B7E4F9FF"
+    }
+  }
+});
+
+const themeDark = createMuiTheme({
+  palette: {
+    background: {
+      default: "#222222"
+    },
+    text: {
+      primary: "#ffffff"
+    }
+  }
+});
+
 const App: React.FC = () => {
+  const [light, setLight] = React.useState(true);
   return (
     <>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-        <a href="/" className="navbar-brand">
-          Rick and Morty
-        </a>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/characterIndex"} className="nav-link">
-              Character Index
-            </Link>
-          </li>
+    <MuiThemeProvider theme={light ? themeLight : themeDark}>
+      <CssBaseline />
+      <Button onClick={() => setLight(prev => !prev)}>Toggle Theme</Button>
+        <div className="site-wrapper">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/characterIndex" element={<CharacterIndex/>} />
+          </Routes>
         </div>
-      </nav>
-    <div className="site-wrapper">
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/characterIndex" element={<CharacterIndex/>} />
-      </Routes>
-    </div>
+    </MuiThemeProvider>
     </>
   )
 }
