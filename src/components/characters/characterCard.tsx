@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
@@ -23,17 +24,20 @@ export const CharacterCard: React.FC<CharacterProps> = ({characters}: CharacterP
   
   return (
     <Box sx={{ flexGrow: 1, p: 4, top: 6}}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {characters.map(item => {
+      <Link to={`/characters/${1}`}>
+        {/* cant find link to id? but can hardcode a character (i.e. 1 instead of id) */}
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          {characters.map(item => {
             return (
               <CharacterProfile
-              id={item.id}
-              name={item.name}
-              status={item.status}
-              image={item.image}/>
+                id={item.id}
+                name={item.name}
+                status={item.status}
+                image={item.image}/>
             )
-        })}
-      </Grid>
+          })}
+        </Grid>
+      </Link>
     </Box>
   )
 }
