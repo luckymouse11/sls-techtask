@@ -9,6 +9,7 @@ import Navbar from './common/Navbar'
 
 import Home from './components/Home'
 import CharacterIndex from './components/characters/characterIndex'
+// import { CharacterShow } from './components/characters/characterShow'
 
 const themeLight = createMuiTheme({
   palette: {
@@ -41,6 +42,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/characterIndex" element={<CharacterIndex/>} />
+            {/* <Route path="/characterShow" element={<CharacterShow/>} /> */}
           </Routes>
         </div>
     </MuiThemeProvider>
