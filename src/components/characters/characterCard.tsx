@@ -45,7 +45,7 @@ const CharacterProfile: React.FC<CharacterCardVals> = ({id, image, name, status}
 
   return (
     <Grid xs={4} sm={4} md={3} sx={{ display: 'flex', justifyContent: 'center', padding: 2 }} >
-      <Link href={`/characters/${id}`}>
+      <Link href={`/character/${id}`}>
         <Item>
           <p>{name}</p>
           <img width={180} height={180} src={image} alt={name}/>
