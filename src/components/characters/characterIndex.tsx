@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 
 import CharacterCardVals from './interfaces'
 import { CharacterCard } from './characterCard'
+// import { resolveProjectReferencePath } from 'typescript';
 
 
 
@@ -81,41 +82,28 @@ import { CharacterCard } from './characterCard'
 
 // export default CharacterIndex
 
-// type Params = {
-//   queryKey: [string, { id: number }];
-// };
-// async function getCharacter(params: Params) {
-//   const [, { id }] = params.queryKey;
-//   const response = await fetch(`https://rickandmortyapi.com/api/character/${id}/`);
-//   if (!response.ok) {
-//     throw new Error("Problem fetching data");
-//   }
-//   const character = await response.json();
-//   assertIsCharacter(character);
-
-//   return character;
-// }
-
-
 
 export default function CharacterIndex() {
 
   const [character, setCharacter] = useState<Array<CharacterCardVals>>([])
+  const [criteria, setCriteria] = useState<String>("")
 
-  const { status, error, data } = useQuery<Array<CharacterCardVals>, Error>(
-    "characters",
+  const { status, error, data} = useQuery<Array<CharacterCardVals>, Error>(
+    ["characters", criteria],
     async () => {
-      const response = await fetch(`https://rickandmortyapi.com/api/character/`);
+      const response = await fetch(`https://rickandmortyapi.com/api/character/${criteria}`);
       if (!response.ok) {
         throw new Error("Problem fetching data");
       }
 
       const characters = await response.json();
-      setCharacter(characters);
+      if (characters !== undefined)
+      {
+        setCharacter(characters.results);
+      }
       return characters.results;
     }
   );
-
 
 //   const handlePageChange = async () => {
 //   try {
@@ -128,26 +116,24 @@ export default function CharacterIndex() {
 //   }
 // }
 
-  async function HandleChange(event: React.FormEvent<HTMLSelectElement>)
+  function HandleChange(event: React.FormEvent<HTMLSelectElement>)
   {
-    const { status, error, data } = useQuery<Array<CharacterCardVals>, Error>(
-      "characters",
-      async () => {
+    // const { status, error, data } = useQuery<Array<CharacterCardVals>, Error>(
+    //   "characters",
+    //   async () => {
         const value = `?${event.currentTarget.id.toString()}=${event.currentTarget.value.toString()}`
-        const response = await fetch(`https://rickandmortyapi.com/api/character/${value}`);
-        if (!response.ok) {
-          throw new Error("Problem fetching data");
-        }
-
-        const characters = await response.json();
-        // if (status === 'success')
-        // {
-        //   setCharacter(characters);
+        setCriteria(value);
+        //refetch();
+        // const response = await fetch(`https://rickandmortyapi.com/api/character/${value}`);
+        // if (!response.ok) {
+        //   throw new Error("Problem fetching data");
         // }
-        return characters.results;
-      }
-    );
+
+        // const characters = await response.json();
+        // return characters.results;
   }
+  //   );
+  // }
 
 
   if (status === "loading") {
