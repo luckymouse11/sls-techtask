@@ -40,15 +40,15 @@ export const CharacterShow: React.FC<CharacterProps> = ({characters}: CharacterP
 
   return (
     <>
-          {characters.map(item => {
-            return (
-              <CharacterProfile
-                id={item.id}
-                name={item.name}
-                status={item.status}
-                image={item.image}/>
-            )
-          })}
+      {characters.map(item => {
+        return (
+          <CharacterProfile
+            id={item.id}
+            name={item.name}
+            status={item.status}
+            image={item.image}/>
+        )
+      })}
     </>
   )
 }

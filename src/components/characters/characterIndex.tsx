@@ -1,10 +1,12 @@
-// import React, { useState, useEffect } from 'react'
-// import { useQuery } from "react-query";
-// import axios from 'axios'
-// import { Button } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { useQuery } from "react-query";
+//import axios from 'axios'
 
-// import CharacterCardVals from './interfaces'
-// import { CharacterCard } from './characterCard'
+import CharacterCardVals from './interfaces'
+import { CharacterCard } from './characterCard'
+
+
+
 
 // const CharacterIndex: React.FC = () => {
   
@@ -79,22 +81,6 @@
 
 // export default CharacterIndex
 
-
-
-import { useQuery } from "react-query";
-
-import CharacterCardVals from './interfaces'
-
-interface CharacterProps {
-  characters: CharacterCardVals[];
-}
-
-// function assertIsCharacter(character: any): asserts character is Character {
-//   if (!("name" in character)) {
-//     throw new Error("Not character");
-//   }
-// }
-
 // type Params = {
 //   queryKey: [string, { id: number }];
 // };
@@ -110,38 +96,98 @@ interface CharacterProps {
 //   return character;
 // }
 
-export default function App() {
-  console.log("Sharky")
-  const { status, error, data } = useQuery<CharacterProps, Error>(
-    ["character", { id: 1 }],
+
+
+export default function CharacterIndex() {
+
+  const [character, setCharacter] = useState<Array<CharacterCardVals>>([])
+
+  const { status, error, data } = useQuery<Array<CharacterCardVals>, Error>(
+    "characters",
     async () => {
-      console.log("Monkey")
       const response = await fetch(`https://rickandmortyapi.com/api/character/`);
       if (!response.ok) {
-        throw new Error("EMERGENCY Problem fetching data");
+        throw new Error("Problem fetching data");
       }
-      const character = await response.json();
-      console.log("Elephant ", character.results)
-      return character.results;
+
+      const characters = await response.json();
+      setCharacter(characters);
+      return characters.results;
     }
   );
- console.log("DATADATA ", data?.characters)
+
+
+//   const handlePageChange = async () => {
+//   try {
+//     const { data } = await axios(nextPage)
+//     const newCharacters = character.concat(data.results)
+//     setCharacter(newCharacters)
+//     setNextPage(data.info.next)
+//   } catch (err) {
+//     console.log(err)
+//   }
+// }
+
+  async function HandleChange(event: React.FormEvent<HTMLSelectElement>)
+  {
+    const { status, error, data } = useQuery<Array<CharacterCardVals>, Error>(
+      "characters",
+      async () => {
+        const value = `?${event.currentTarget.id.toString()}=${event.currentTarget.value.toString()}`
+        const response = await fetch(`https://rickandmortyapi.com/api/character/${value}`);
+        if (!response.ok) {
+          throw new Error("Problem fetching data");
+        }
+
+        const characters = await response.json();
+        // if (status === 'success')
+        // {
+        //   setCharacter(characters);
+        // }
+        return characters.results;
+      }
+    );
+  }
+
+
   if (status === "loading") {
-    return <div>...</div>;
+    return <div>portaling in...</div>;
   }
   if (status === "error") {
     return <div>{error!.message}</div>;
   }
 
-  // return data ? <h3>{data.characters[0].name}</h3> : null;
-  return <h3> HI </h3>
+  return (
+    data ?
+    <>
+      <div>
+        <form>
+          <select id='status' onChange={HandleChange}>
+            <option value=''>Status</option>
+            <option value='Dead'>Dead</option>
+            <option value='Alive'>Alive</option>
+          </select>
+          <select id='gender' onChange={HandleChange}>
+            <option value=''>Gender</option>
+            <option value='Male'>Male</option>
+            <option value='Female'>Female</option>
+            <option value='Genderless'>Genderless</option>
+          </select>
+          <select id='species' onChange={HandleChange}>
+            <option value=''>Species</option>
+            <option value='Human'>Human</option>
+            <option value='Alien'>Alien</option>
+            <option value='Unknown'>Unknown</option>
+          </select>
+        </form>
+      </div>
+      <div>
+        <CharacterCard characters={character}/>
+      </div>
+    </>
+    :
+    <>
+    null;
+    </>
+  )
 }
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from '@mui/material/Link';
-// import { Link } from 'react-router-dom';
 import { styled } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
@@ -22,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export const CharacterCard: React.FC<CharacterProps> = ({characters}: CharacterProps) => {
-  
+  console.log("characters ->", characters)
   return (
     <Box sx={{ flexGrow: 1, p: 4, top: 6}}>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
