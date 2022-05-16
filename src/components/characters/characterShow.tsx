@@ -32,5 +32,15 @@ export default function CharacterShow() {
       return <div>{error!.message}</div>;
     }
   
-    return character ? <h3>{character.name}</h3> : null;
+    return (
+      character ? 
+      <>
+        <h3>{character.name}</h3>
+        <h3>{character.gender}</h3>
+        <h3>{character.status}</h3>
+        <img src={character.image} alt={character.name} />
+      </>
+      : 
+      null
+    )
 };

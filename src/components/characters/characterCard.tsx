@@ -30,6 +30,8 @@ export const CharacterCard: React.FC<CharacterProps> = ({characters}: CharacterP
                 id={item.id}
                 name={item.name}
                 status={item.status}
+                gender={item.gender}
+                species={item.species}
                 image={item.image}/>
             )
           })}
