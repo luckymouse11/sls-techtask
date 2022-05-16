@@ -1,64 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
-import { useParams } from 'react-router-dom'
-import { styled } from '@mui/material';
-import { Paper } from '@mui/material';
-
-
+import { useQuery } from "react-query";
+import React, { useState} from 'react'
 import CharacterCardVals from './interfaces'
+import { useParams } from 'react-router-dom'
 
-interface CharacterProps {
-  characters: CharacterCardVals[];
-}
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#FAFD7CFF',
-  width: 'fit-content',
-  border: '1px solid black',
-  textAlign: 'center',
-  padding: 8,
-  paddingTop: 0,
-}));
+export default function CharacterShow() {
 
-export const CharacterShow: React.FC<CharacterProps> = ({characters}: CharacterProps) => {
-
-  const [character, setCharacter] = useState<Array<CharacterCardVals>>([])
+  const [character, setCharacter] = useState<CharacterCardVals>();
   const { id } = useParams()
-  const [hasError, setHasError] = useState(false)
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data } = await axios.get(`https://rickandmortyapi.com/api/character/${id}`)
-        setCharacter(data)
-      } catch (err) {
-        setHasError(true)
+  const { status, error } = useQuery<CharacterCardVals, Error>(
+    ["character-by-id", { id: id}],
+    async () => {
+      const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+      if (!response.ok) {
+        throw new Error("Problem fetching data");
       }
+
+      const characters = await response.json();
+      if (characters !== undefined)
+      {
+        setCharacter(characters);
+      }
+      return characters;
+    });
+
+    if (status === "loading") {
+      return <div>Portalling in...</div>;
     }
-    getData()
-  }, [id])
-
-  return (
-    <>
-      {characters.map(item => {
-        return (
-          <CharacterProfile
-            id={item.id}
-            name={item.name}
-            status={item.status}
-            image={item.image}/>
-        )
-      })}
-    </>
-  )
-}
-
-  const CharacterProfile: React.FC<CharacterCardVals> = ({id, image, name, status}: CharacterCardVals) => {
-
-  return (
-    <Item>
-      <p>{name}</p>
-      <img width={180} height={180} src={image} alt={name}/>
-    </Item>
-  )
-}
+    if (status === "error") {
+      return <div>{error!.message}</div>;
+    }
+  
+    return character ? <h3>{character.name}</h3> : null;
+};

@@ -4,12 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-
 import Navbar from './common/Navbar'
 
 import Home from './components/Home'
 import CharacterIndex from './components/characters/characterIndex'
-// import { CharacterShow } from './components/characters/characterShow'
+import CharacterShow from './components/characters/characterShow'
 
 const themeLight = createMuiTheme({
   palette: {
@@ -32,6 +31,7 @@ const themeDark = createMuiTheme({
 
 const App: React.FC = () => {
   const [light, setLight] = React.useState(true);
+
   return (
     <>
     <MuiThemeProvider theme={light ? themeLight : themeDark}>
@@ -42,7 +42,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/characterIndex" element={<CharacterIndex/>} />
-            {/* <Route path="/characterShow" element={<CharacterShow/>} /> */}
+            <Route path="/character/:id" element={<CharacterShow/>} />
           </Routes>
         </div>
     </MuiThemeProvider>
