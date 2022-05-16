@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="manifest" href="/static/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -27,6 +28,21 @@
     <title>React App</title>
   </head>
   <body>
+    <script>
+      // Don't register the service worker
+      // until the page has fully loaded
+      window.addEventListener('load', () => {
+        // Is service worker available?
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service-worker.js').then(() => {
+            console.log('Service worker registered!');
+          }).catch((error) => {
+            console.warn('Error registering service worker:');
+            console.warn(error);
+          });
+        }
+      });
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

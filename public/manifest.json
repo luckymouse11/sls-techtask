@@ -1,7 +1,18 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Rick and Morty Database",
+  "short_name": "R&M-DB",
+  "theme_color": "#FAFD7CFF",
+  "background_color": "#B7E4F9FF",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "http://localhost:3000/",
+  "description": "A Rick and Morty Character Database",
+  "orientation": "any",
   "icons": [
+      {
+          "src": "https://i.guim.co.uk/img/media/b563ac5db4b4a4e1197c586bbca3edebca9173cd/0_12_3307_1985/master/3307.jpg?width=700&quality=85&auto=format&fit=max&s=15d1c47105b54af1127dbeda22157c63",
+          "sizes": "1024x1024"
+      },
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
@@ -17,9 +28,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
